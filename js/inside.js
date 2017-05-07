@@ -32,23 +32,68 @@ var maps = new Array(
 function Clear(x, y) {
   context.clearRect(x,y,40,40);
 }
+var temp = 0;
 
 function tank(x, y) 
 {
     this.x = 0;
     this.y = 0;
-    this.visible = 0;
+    this.visible = 3;
     this.helth = 100;
     this.draw = function() 
     {
     	context.beginPath();
-    	context.rect(this.x, this.y, 40, 40);
-    	context.fillStyle = "grey";
+		
+		if(this.visible == 1) {
+			if(temp == 0) {
+				var cat = document.getElementById("top");
+				context.drawImage(cat, this.x, this.y);
+				temp = 1;
+			} else {
+				var cat = document.getElementById("topB");
+				context.drawImage(cat, this.x, this.y);
+				temp = 0;
+			}
+		} else if(this.visible == 2) {
+			if(temp == 0) {
+				var cat = document.getElementById("right");
+				context.drawImage(cat, this.x, this.y);
+				temp = 1;
+			} else {
+				var cat = document.getElementById("rightB");
+				context.drawImage(cat, this.x, this.y);
+				temp = 0;
+			}
+				
+		} else if(this.visible == 3) {
+			if(temp == 0) {
+				var cat = document.getElementById("bottom");
+				context.drawImage(cat, this.x, this.y);	
+				temp = 1;
+			} else {
+				var cat = document.getElementById("bottomB");
+				context.drawImage(cat, this.x, this.y);	
+				temp = 0;
+			}
+			
+		} else if(this.visible == 4) {
+			if(temp == 0) {
+				var cat = document.getElementById("left");
+				context.drawImage(cat, this.x, this.y);
+				temp = 1;
+			} else {
+				var cat = document.getElementById("leftB");
+				context.drawImage(cat, this.x, this.y);	
+				temp = 0;
+			}
+				
+		}
+		
     	context.fill();
     };
 }
 function shoot() {
-	alert("shoot");
+
 }
 
 var f = 0, l = 0, i = 0;
@@ -56,9 +101,8 @@ for(l; l < coor; l++) {
 	for(i; i < coor; i++) {
 		if(maps[i][l] == 1) {
 			context.beginPath();
-			context.rect(20 * l, 20 * i, 20, 20);
-			context.fillStyle = "red";
-			context.fill();
+			var cat = document.getElementById("wall");
+			context.drawImage(cat, 20 * l, 20 * i);
 		}
 	}
 	i = 0;
@@ -72,6 +116,11 @@ left = 0;
 right = 0;
 bottom = 0;
 tops = 0;
+if(event.keyCode == 119 && tops != 1) k.visible = 1;
+if(event.keyCode == 115 && bottom != 1) k.visible = 3;
+if(event.keyCode == 100 && right != 1) k.visible = 2;
+if(event.keyCode == 97 && left != 1) k.visible = 4;
+
 for(i = 0; i < coor; i++) {
 	for(l = 0; l < coor; l++) {			
 		if(maps[l][i] == 1) {
@@ -94,25 +143,21 @@ for(i = 0; i < coor; i++) {
 	if(event.keyCode == 119 && tops != 1) {//top
 		if(k.y > 0) {
 			k.y-=5;
-			k.visible-=1;
 		}
 	}
 	if(event.keyCode == 115 && bottom != 1) {//bottom
 		if(k.y < 480) {
 			k.y += 5;
-			k.visible = 3;
 		}
 	}
 	if(event.keyCode == 100 && right != 1) {//right
 		if(k.x < 480) {
 			k.x += 5;
-			k.visible = 2;
 		}
 	}
 	if(event.keyCode == 97 && left != 1) {//left
 		if(k.x > 0) {
 			k.x-=5;
-			k.visible = 4;
 		}
 	}
 	if(event.keyCode == 101) {
